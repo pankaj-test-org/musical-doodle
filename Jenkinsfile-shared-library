@@ -1,0 +1,35 @@
+@Library('shared-library') _  // Load the shared library - set it in manage jenkins --> system--> shared libraries https://github.com/pankajy-dev/shared-library
+
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Initialize') {
+            steps {
+                script {
+                    echo "To successfully run this stage, setup shared library in jenkins --> system--> shared libraries - https://github.com/pankajy-dev/shared-library"
+                    def helper = new com.pankaj.Helper(this)  // Create helper instance
+                    helper.printMessage("Pipeline Started ✅")
+
+                    def branch = "feature/new-ui"
+                    if (helper.isFeatureBranch(branch)) {
+                        helper.printMessage("This is a feature branch 🚀")
+                    }
+
+                    def output = helper.runShellCommand("echo Hello Jenkins")
+                    helper.printMessage("Shell Output: ${output}")
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Compiling the project...'
+                sh 'mkdir -p target && echo "dummy jar content" > target/app.jar'
+                archiveArtifacts artifacts: 'target/*.jar'
+                echo 'Artifact generated: target/app.jar'
+            }
+        }
+    }
+}

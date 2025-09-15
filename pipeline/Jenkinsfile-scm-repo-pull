@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Run Shell Script') {
+            steps {
+                script {
+                    def scriptPath = 'shell/echo.sh' // Update with your script path
+
+                    // Make sure the script is executable
+                    sh "chmod +x ${scriptPath}"
+
+                    // Execute the shell script
+                    sh scriptPath
+                }
+            }
+        }
+    }
+}

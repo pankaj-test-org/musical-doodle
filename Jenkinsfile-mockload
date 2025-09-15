@@ -1,0 +1,98 @@
+pipeline {
+    agent any
+    stages {
+        stage('Stage-0') {
+            steps {
+                withMockLoad(averageDuration: 3, testFailureIgnore: false) {
+                    sh MOCK_LOAD_COMMAND
+                }
+            }
+        }
+        stage('Stage-1') {
+            parallel {
+                stage('Stage-1.1') {
+                    steps {
+                        sh "echo 'first step'"
+                        withMockLoad(averageDuration: 3, testFailureIgnore: false) {
+                            sh MOCK_LOAD_COMMAND
+                        }
+                        sh "echo 'Execution completed!!!!!!!!!'"
+                    }
+                }
+                stage('Stage-1.2') {
+                    stages {
+                        stage('1.2.1') {
+                            steps {
+                                withMockLoad(averageDuration: 9, testFailureIgnore: false) {
+                                    sh MOCK_LOAD_COMMAND
+                                }
+                            }
+                        }
+                        stage('1.2.2') {
+                            steps {
+                                withMockLoad(averageDuration: 9, testFailureIgnore: false) {
+                                    sh MOCK_LOAD_COMMAND
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        stage('Stage - 2- Parallel-Block') {
+            parallel {
+                stage('Stage-2.1 - Parallel Stage ') {
+                    steps {
+                        withMockLoad(averageDuration: 5, testFailureIgnore: false) {
+                            sh MOCK_LOAD_COMMAND
+                        }
+                    }
+                }
+                stage('Stage 2.2 - Test - Parallel stage') {
+                            steps {
+                                sh "echo 'Running unit tests...'"
+                                sh "echo 'End of mockLoads'"
+                                // Add your unit test commands here
+                    }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Starting build stage...'
+                sh 'mvn clean compile'
+                echo 'Build stage completed.'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Starting test stage...'
+                sh 'mvn test'
+                echo 'Test stage completed.'
+            }
+        }
+
+        stage("Registering") {
+            steps {
+                echo 'Next step will register the metadata'
+                registerBuildArtifactMetadata(
+                        name: "test-artifact",
+                        version: "1.0.0",
+                        type: "maven",
+                        url: "https://ffacb5675526.ngrok-free.app1",
+                        digest: "6f637064707039346163663237383938",
+                        label: "prod"
+                )
+            }
+        }
+        stage('Archive Test Results') {
+            steps {
+                echo 'Archiving test results...'
+                junit '**/target/surefire-reports/*.xml'
+                echo 'Test results archived.'
+            }
+        }
+    }
+}
