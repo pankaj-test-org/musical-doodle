@@ -114,8 +114,7 @@ pipeline {
                 sh "echo 'Security scan result' > scan.sarif && ls -l scan.sarif"
                 archiveArtifacts artifacts: 'scan.sarif'
                 // Prepare the security scan for sending
-                registerSecurityScan artifacts: "scan*", format: "sarif"
-                registerSecurityScan artifacts: "my-scan*", format: "snyk", scanner: "sonarqube"
+                registerSecurityScan artifacts: "scan*", format: "sarif", scanner: "sonarqube"
             }
         }
 
@@ -123,10 +122,9 @@ pipeline {
             steps {
                 // Pretend to trigger a Security Scan
                 sh "pwd"
-                sh "echo 'Security scan result' > scan-archive-true.sarif && ls -l scan-archive-true.sarif"
+                sh "echo 'Security scan result' > scan-archive-true.snyk && ls -l scan-archive-true.snyk"
                 // Prepare the security scan for sending
-                registerSecurityScan artifacts: "scan*", format: "sarif" , archive: true
-                registerSecurityScan artifacts: "my-scan*", format: "snyk", scanner: "sonarqube",  archive: true
+                registerSecurityScan artifacts: "scan*", format: "snyk" , archive: true, scanner: "snyk"
             }
         }
 
