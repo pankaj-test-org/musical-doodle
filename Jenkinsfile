@@ -107,6 +107,15 @@ pipeline {
             }
         }
 
+        stage('Security Scan') {
+            steps {
+                // Pretend to trigger a Security Scan
+                sh "echo 'Security scan result' > scan.sarif"
+                // Prepare the security scan for sending
+                archiveArtifacts artifacts: "scan*"
+            }
+        }
+
     }
     post {
         always {
