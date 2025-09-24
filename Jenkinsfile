@@ -112,6 +112,7 @@ pipeline {
                 // Pretend to trigger a Security Scan
                 sh "pwd"
                 sh "echo 'Security scan result' > scan.sarif && ls -l scan.sarif"
+                archiveArtifacts artifacts: 'scan.sarif'
                 // Prepare the security scan for sending
                 registerSecurityScan artifacts: "scan*", format: "sarif"
                 registerSecurityScan artifacts: "my-scan*", format: "snyk", scanner: "sonarqube"
