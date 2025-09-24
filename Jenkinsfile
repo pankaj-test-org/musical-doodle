@@ -67,7 +67,7 @@ pipeline {
                         name: "build-artifact",
                         version: "1.0.0",
                         type: "jar",
-                        url: "https://mollusk-welcome-newly.ngrok-free.app/job/mbp/job/main/1/artifact/target/app.jar/*view*/",
+                        url: "https://pankajy-dev.me/job/mbp/job/main/1/artifact/target/app.jar/*view*/",
                         digest: "6f637064707039346163663237383938",
                         label: "prod"
                 )
@@ -110,7 +110,7 @@ pipeline {
         stage('Security Scan') {
             steps {
                 // Pretend to trigger a Security Scan
-                sh "echo 'Security scan result' > scan.sarif"
+                sh "echo 'Security scan result' > scan.sarif && ls -l scan.sarif"
                 // Prepare the security scan for sending
                 registerSecurityScan artifacts: "scan*", format: "sarif"
                 registerSecurityScan artifacts: "my-scan*", format: "snyk", scanner: "sonarqube"
