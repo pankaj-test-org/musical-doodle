@@ -26,13 +26,13 @@ pipeline {
                         stage('1.2.1') {
                             steps {
                                 echo "Stage-1.2.1: deterministic mock load (sleep 9)"
-                                sh 'sleep 9'
+                                sh 'sleep 1'
                             }
                         }
                         stage('1.2.2') {
                             steps {
                                 echo "Stage-1.2.2: deterministic mock load (sleep 9)"
-                                sh 'sleep 9'
+                                sh 'sleep 2'
                             }
                         }
                     }
@@ -45,14 +45,14 @@ pipeline {
                 stage('Stage-2.1 - Parallel Stage') {
                     steps {
                         echo "Stage-2.1: deterministic mock load (sleep 5)"
-                        sh 'sleep 5'
+                        sh 'sleep 2'
                     }
                 }
                 stage('Stage 2.2 - Test - Parallel stage') {
                     steps {
                         echo 'Running unit tests...'
                         // if you want the tests to have a fixed duration replace with a deterministic command
-                        sh 'sleep 2'
+                        sh 'sleep 1'
                         echo 'End of mockLoads'
                         // Add actual unit test commands (mvn test) if you want them here
                     }
