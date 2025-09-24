@@ -110,6 +110,7 @@ pipeline {
         stage('Security Scan') {
             steps {
                 // Pretend to trigger a Security Scan
+                sh "pwd"
                 sh "echo 'Security scan result' > scan.sarif && ls -l scan.sarif"
                 // Prepare the security scan for sending
                 registerSecurityScan artifacts: "scan*", format: "sarif"
