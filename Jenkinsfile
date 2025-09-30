@@ -110,7 +110,7 @@ pipeline {
         stage('Stage - 8 - Security Scan') {
             steps {
                 // Pretend to trigger a Security Scan
-                sh "This stage will work fine , with multiple scan results"
+                sh "echo 'This stage will work fine , with multiple scan results'"
                 sh "pwd"
                 sh "echo 'Security scan result' > security-scan-results-s8-a.sarif && ls -l security-scan-results-s8-a.sarif"
                 sh "echo 'Security scan result' > security-scan-results-s8-b.sarif && ls -l security-scan-results-s8-b.sarif"
@@ -122,7 +122,7 @@ pipeline {
         stage('Stage - 9 - Security Scan') {
             steps {
                 // Pretend to trigger a Security Scan
-                sh " This stage will cause duplicate files due to archiveArtifact step in pipeline"
+                sh "echo 'This stage will cause duplicate files due to archiveArtifact step in pipeline'"
                 sh "pwd"
                 sh "echo 'Security scan result' > security-scan-results-s9-a.sarif && ls -l security-scan-results-s9-a.sarif"
                 sh "echo 'Security scan result' > security-scan-results-s9-b.sarif && ls -l security-scan-results-s9-b.sarif"
@@ -137,7 +137,7 @@ pipeline {
         stage('Stage - 10 - Security Scan archive true') {
             steps {
                 // Pretend to trigger a Security Scan
-                sh "This stage will work fine , with multiple scan results and archive true"
+                sh "echo 'This stage will work fine , with multiple scan results and archive true'"
                 sh "pwd"
                 sh "echo 'Security scan result' > security-scan-results-s10a.snyk && ls -l security-scan-results-s10a.snyk"
                 sh "echo 'Security scan result' > security-scan-results-s10b.snyk && ls -l security-scan-results-s10b.snyk"
@@ -150,7 +150,7 @@ pipeline {
         stage('Stage - 11 - Security Scan - Will Fail') {
             steps {
                 // Pretend to trigger a Security Scan
-                sh "This stage will fail as the pattern will give two files with same name and different extensions"
+                sh "echo 'This stage will fail as the pattern will give two files with same name and different extensions'"
                 sh "pwd"
                 sh "echo 'Security scan result' > security-scan-results-s11.csv && ls -l security-scan-results-s11.csv"
                 sh "echo 'Security scan result' > security-scan-results-s11.sarif && ls -l security-scan-results-s11.sarif"
