@@ -107,24 +107,54 @@ pipeline {
             }
         }
 
-        stage('Security Scan') {
+        stage('Stage - 8 - Security Scan') {
             steps {
                 // Pretend to trigger a Security Scan
                 sh "pwd"
-                sh "echo 'Security scan result' > scan.sarif && ls -l scan.sarif"
-                archiveArtifacts artifacts: 'scan.sarif'
+                sh "echo 'Security scan result' > security-scan-results-s8-a.sarif && ls -l security-scan-results-s8-a.sarif"
+                sh "echo 'Security scan result' > security-scan-results-s8-b.sarif && ls -l security-scan-results-s8-b.sarif"
+                // This will not fail, it ill send array of two files
+                archiveArtifacts artifacts: 'security-scan-results-s8-a.sarif'
                 // Prepare the security scan for sending
-                registerSecurityScan artifacts: "scan*", format: "sarif", scanner: "sonarqube"
+                registerSecurityScan artifacts: "security-scan-results-s8-*.sarif", format: "sarif", scanner: "sonarqube"
             }
         }
 
-        stage('Security Scan archive true') {
+        stage('Stage - 9 - Security Scan') {
             steps {
                 // Pretend to trigger a Security Scan
                 sh "pwd"
-                sh "echo 'Security scan result' > scan-archive-true.snyk && ls -l scan-archive-true.snyk"
+                sh "echo 'Security scan result' > security-scan-results-s9-a.sarif && ls -l security-scan-results-s9-a.sarif"
+                sh "echo 'Security scan result' > security-scan-results-s9-b.sarif && ls -l security-scan-results-s9-b.sarif"
                 // Prepare the security scan for sending
-                registerSecurityScan artifacts: "scan*", format: "snyk" , archive: true, scanner: "snyk"
+                registerSecurityScan artifacts: "security-scan-results-s9-*.sarif", format: "sarif", scanner: "sonarqube"
+            }
+        }
+
+        stage('Stage - 10 - Security Scan') {
+            steps {
+                // Pretend to trigger a Security Scan
+                sh "pwd"
+                sh "echo 'Security scan result' > security-scan-results-s10-csv.csv && ls -l security-scan-results-s10-csv.csv"
+                sh "echo 'Security scan result -1' > security-scan-results-s10-sarif.sarif && ls -l security-scan-results-s10-sarif.sarif"
+                // Prepare the security scan for sending
+                // UPDATED PATTERN: to target specific file types
+                // This will now correctly target the SARIF file only
+                registerSecurityScan artifacts: "security-scan-results-s10-sarif.sarif", format: "sarif", scanner: "sonarqube"
+                // This will now correctly target the CSV file only
+                registerSecurityScan artifacts: "security-scan-results-s10-csv.csv", format: "csv", scanner: "sonarqube"
+            }
+        }
+
+        stage('Stage - 11 - Security Scan archive true') {
+            steps {
+                // Pretend to trigger a Security Scan
+                sh "pwd"
+                sh "echo 'Security scan result' > security-scan-results-s11a.snyk && ls -l security-scan-results-s11a.snyk"
+                sh "echo 'Security scan result' > security-scan-results-s11b.snyk && ls -l security-scan-results-s11b.snyk"
+                sh "echo 'Security scan result' > security-scan-results-s11c.snyk && ls -l security-scan-results-s11c.snyk"
+                // Prepare the security scan for sending
+                registerSecurityScan artifacts: "security-scan-results-s11*", format: "snyk" , archive: true, scanner: "snyk"
             }
         }
 
