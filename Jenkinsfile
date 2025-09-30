@@ -110,11 +110,10 @@ pipeline {
         stage('Stage - 8 - Security Scan') {
             steps {
                 // Pretend to trigger a Security Scan
+                sh "This stage will work fine , with multiple scan results"
                 sh "pwd"
                 sh "echo 'Security scan result' > security-scan-results-s8-a.sarif && ls -l security-scan-results-s8-a.sarif"
                 sh "echo 'Security scan result' > security-scan-results-s8-b.sarif && ls -l security-scan-results-s8-b.sarif"
-                // This will not fail, it ill send array of two files
-                archiveArtifacts artifacts: 'security-scan-results-s8-a.sarif'
                 // Prepare the security scan for sending
                 registerSecurityScan artifacts: "security-scan-results-s8-*.sarif", format: "sarif", scanner: "sonarqube"
             }
@@ -123,40 +122,46 @@ pipeline {
         stage('Stage - 9 - Security Scan') {
             steps {
                 // Pretend to trigger a Security Scan
+                sh " This stage will cause duplicate files due to archiveArtifact step in pipeline"
                 sh "pwd"
                 sh "echo 'Security scan result' > security-scan-results-s9-a.sarif && ls -l security-scan-results-s9-a.sarif"
                 sh "echo 'Security scan result' > security-scan-results-s9-b.sarif && ls -l security-scan-results-s9-b.sarif"
+                // This will not fail, it will send array of two files
+                archiveArtifacts artifacts: 'security-scan-results-s9-a.sarif'
+                archiveArtifacts artifacts: 'security-scan-results-s9-b.sarif'
                 // Prepare the security scan for sending
                 registerSecurityScan artifacts: "security-scan-results-s9-*.sarif", format: "sarif", scanner: "sonarqube"
             }
         }
 
-        stage('Stage - 10 - Security Scan') {
+        stage('Stage - 10 - Security Scan archive true') {
             steps {
                 // Pretend to trigger a Security Scan
+                sh "This stage will work fine , with multiple scan results and archive true"
                 sh "pwd"
-                sh "echo 'Security scan result' > security-scan-results-s10-csv.csv && ls -l security-scan-results-s10-csv.csv"
-                sh "echo 'Security scan result -1' > security-scan-results-s10-sarif.sarif && ls -l security-scan-results-s10-sarif.sarif"
+                sh "echo 'Security scan result' > security-scan-results-s10a.snyk && ls -l security-scan-results-s10a.snyk"
+                sh "echo 'Security scan result' > security-scan-results-s10b.snyk && ls -l security-scan-results-s10b.snyk"
+                sh "echo 'Security scan result' > security-scan-results-s10c.snyk && ls -l security-scan-results-s10c.snyk"
                 // Prepare the security scan for sending
-                // UPDATED PATTERN: to target specific file types
-                // This will now correctly target the SARIF file only
-                registerSecurityScan artifacts: "security-scan-results-s10-sarif.sarif", format: "sarif", scanner: "sonarqube"
-                // This will now correctly target the CSV file only
-                registerSecurityScan artifacts: "security-scan-results-s10-csv.csv", format: "csv", scanner: "sonarqube"
+                registerSecurityScan artifacts: "security-scan-results-s10*", format: "snyk" , archive: true, scanner: "snyk"
             }
         }
 
-        stage('Stage - 11 - Security Scan archive true') {
+        stage('Stage - 11 - Security Scan - Will Fail') {
             steps {
                 // Pretend to trigger a Security Scan
+                sh "This stage will fail as the pattern will give two files with same name and different extensions"
                 sh "pwd"
-                sh "echo 'Security scan result' > security-scan-results-s11a.snyk && ls -l security-scan-results-s11a.snyk"
-                sh "echo 'Security scan result' > security-scan-results-s11b.snyk && ls -l security-scan-results-s11b.snyk"
-                sh "echo 'Security scan result' > security-scan-results-s11c.snyk && ls -l security-scan-results-s11c.snyk"
+                sh "echo 'Security scan result' > security-scan-results-s11.csv && ls -l security-scan-results-s11.csv"
+                sh "echo 'Security scan result' > security-scan-results-s11.sarif && ls -l security-scan-results-s11.sarif"
                 // Prepare the security scan for sending
-                registerSecurityScan artifacts: "security-scan-results-s11*", format: "snyk" , archive: true, scanner: "snyk"
+                // UPDATED PATTERN: to target specific file types
+                // This will now correctly target the SARIF file only
+                registerSecurityScan artifacts: "security-scan-results-s11*", format: "sarif", scanner: "sonarqube"
             }
         }
+
+
 
     }
     post {
