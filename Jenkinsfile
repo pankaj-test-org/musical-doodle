@@ -147,19 +147,20 @@ pipeline {
             }
         }
 
-        stage('Stage - 11 - Security Scan - Will Fail') {
-            steps {
-                // Pretend to trigger a Security Scan
-                sh "echo 'This stage will fail as the pattern will give two files with same name and different extensions'"
-                sh "pwd"
-                sh "echo 'Security scan result' > security-scan-results-s11.csv && ls -l security-scan-results-s11.csv"
-                sh "echo 'Security scan result' > security-scan-results-s11.sarif && ls -l security-scan-results-s11.sarif"
-                // Prepare the security scan for sending
-                // UPDATED PATTERN: to target specific file types
-                // This will now correctly target the SARIF file only
-                registerSecurityScan artifacts: "security-scan-results-s11*", format: "sarif", scanner: "sonarqube"
-            }
-        }
+        // Only uncomment to check fail case
+//        stage('Stage - 11 - Security Scan - Will Fail') {
+//            steps {
+//                // Pretend to trigger a Security Scan
+//                sh "echo 'This stage will fail as the pattern will give two files with same name and different extensions'"
+//                sh "pwd"
+//                sh "echo 'Security scan result' > security-scan-results-s11.csv && ls -l security-scan-results-s11.csv"
+//                sh "echo 'Security scan result' > security-scan-results-s11.sarif && ls -l security-scan-results-s11.sarif"
+//                // Prepare the security scan for sending
+//                // UPDATED PATTERN: to target specific file types
+//                // This will now correctly target the SARIF file only
+//                registerSecurityScan artifacts: "security-scan-results-s11*", format: "sarif", scanner: "sonarqube"
+//            }
+//        }
 
 
 
