@@ -161,7 +161,15 @@ pipeline {
 //            }
 //        }
 
-
+        stage('Stage - 12 - Security Scan Default') {
+            steps {
+                // Pretend to trigger a Security Scan
+                sh "echo 'This stage will work fine , default scan results'"
+                sh "pwd"
+                sh "echo 'Security scan result' > security-scan-results-s12a.snyk && ls -l security-scan-results-s12a.snyk"
+                archiveArtifacts artifacts: 'security-scan-results-s12a.snyk'
+            }
+        }
 
     }
     post {
