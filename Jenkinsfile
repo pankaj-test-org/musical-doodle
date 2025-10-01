@@ -112,8 +112,8 @@ pipeline {
                 // Pretend to trigger a Security Scan
                 sh "echo 'This stage will work fine , with multiple scan results'"
                 sh "pwd"
-                sh "echo 'Security scan result' > security-scan-results-s8-a.sarif && ls -l security-scan-results-s8-a.sarif"
-                sh "echo 'Security scan result' > security-scan-results-s8-b.sarif && ls -l security-scan-results-s8-b.sarif"
+                sh "echo 'Security scan result for security-scan-results-s8-b.sarif' > security-scan-results-s8-a.sarif && ls -l security-scan-results-s8-a.sarif"
+                sh "echo 'Security scan result for security-scan-results-s8-b.sarif' > security-scan-results-s8-b.sarif && ls -l security-scan-results-s8-b.sarif"
                 // Prepare the security scan for sending
                 registerSecurityScan artifacts: "security-scan-results-s8-*.sarif", format: "sarif", scanner: "sonarqube"
             }
@@ -124,8 +124,8 @@ pipeline {
                 // Pretend to trigger a Security Scan
                 sh "echo 'This stage will cause duplicate files due to archiveArtifact step in pipeline'"
                 sh "pwd"
-                sh "echo 'Security scan result' > security-scan-results-s9-a.sarif && ls -l security-scan-results-s9-a.sarif"
-                sh "echo 'Security scan result' > security-scan-results-s9-b.sarif && ls -l security-scan-results-s9-b.sarif"
+                sh "echo 'Security scan result for security-scan-results-s9-a.sarif' > security-scan-results-s9-a.sarif && ls -l security-scan-results-s9-a.sarif"
+                sh "echo 'Security scan result for security-scan-results-s9-b.sarif' > security-scan-results-s9-b.sarif && ls -l security-scan-results-s9-b.sarif"
                 // This will not fail, it will send array of two files
                 archiveArtifacts artifacts: 'security-scan-results-s9-a.sarif'
                 archiveArtifacts artifacts: 'security-scan-results-s9-b.sarif'
@@ -139,7 +139,7 @@ pipeline {
                 // Pretend to trigger a Security Scan
                 sh "echo 'This stage will work fine , with multiple scan results and archive true'"
                 sh "pwd"
-                sh "echo 'Security scan result' > security-scan-results-s10a.snyk && ls -l security-scan-results-s10a.snyk"
+                sh "echo 'Security scan result for security-scan-results-s10a.snyk' > security-scan-results-s10a.snyk && ls -l security-scan-results-s10a.snyk"
                 archiveArtifacts artifacts: 'security-scan-results-s10a.snyk'
                 // Prepare the security scan for sending
                 registerSecurityScan artifacts: "security-scan-results-s10a.snyk", format: "snyk" , archive: true, scanner: "snyk"
@@ -166,7 +166,7 @@ pipeline {
                 // Pretend to trigger a Security Scan
                 sh "echo 'This stage will work fine , default scan results'"
                 sh "pwd"
-                sh "echo 'Security scan result' > security-scan-results-s12a.sarif && ls -l security-scan-results-s12a.sarif"
+                sh "echo 'Security scan result for security-scan-results-s12a.sarif' > security-scan-results-s12a.sarif && ls -l security-scan-results-s12a.sarif"
                 archiveArtifacts artifacts: 'security-scan-results-s12a.sarif'
             }
         }
