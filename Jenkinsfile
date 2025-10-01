@@ -140,10 +140,9 @@ pipeline {
                 sh "echo 'This stage will work fine , with multiple scan results and archive true'"
                 sh "pwd"
                 sh "echo 'Security scan result' > security-scan-results-s10a.snyk && ls -l security-scan-results-s10a.snyk"
-                sh "echo 'Security scan result' > security-scan-results-s10b.snyk && ls -l security-scan-results-s10b.snyk"
-                sh "echo 'Security scan result' > security-scan-results-s10c.snyk && ls -l security-scan-results-s10c.snyk"
+                archiveArtifacts artifacts: 'security-scan-results-s10a.snyk'
                 // Prepare the security scan for sending
-                registerSecurityScan artifacts: "security-scan-results-s10*", format: "snyk" , archive: true, scanner: "snyk"
+                registerSecurityScan artifacts: "security-scan-results-s10a.snyk", format: "snyk" , archive: true, scanner: "snyk"
             }
         }
 
