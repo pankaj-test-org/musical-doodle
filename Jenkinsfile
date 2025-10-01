@@ -166,8 +166,8 @@ pipeline {
                 // Pretend to trigger a Security Scan
                 sh "echo 'This stage will work fine , default scan results'"
                 sh "pwd"
-                sh "echo 'Security scan result' > security-scan-results-s12a.snyk && ls -l security-scan-results-s12a.snyk"
-                archiveArtifacts artifacts: 'security-scan-results-s12a.snyk'
+                sh "echo 'Security scan result' > security-scan-results-s12a.sarif && ls -l security-scan-results-s12a.sarif"
+                archiveArtifacts artifacts: 'security-scan-results-s12a.sarif'
             }
         }
 
