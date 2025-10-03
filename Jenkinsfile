@@ -139,10 +139,9 @@ pipeline {
                 // Pretend to trigger a Security Scan
                 sh "echo 'This stage will work fine , with multiple scan results and archive true'"
                 sh "pwd"
-                sh "echo 'Security scan result for security-scan-results-s10a.sarif' > security-scan-results-s10a.sarif && ls -l security-scan-results-s10a.sarif"
-                archiveArtifacts artifacts: 'security-scan-results-s10a.sarif'
+                sh "echo 'Security scan result for security-scan-results-s10.sarif' > security-scan-results-s10.sarif && ls -l security-scan-results-s10.sarif"
                 // Prepare the security scan for sending
-                registerSecurityScan artifacts: "security-scan-results-s10a.sarif", format: "sarif" , archive: true, scanner: "sarif-scanner"
+                registerSecurityScan artifacts: "security-scan-results-s10.sarif", format: "sarif" , archive: true, scanner: "sarif-scanner"
             }
         }
 
@@ -166,8 +165,8 @@ pipeline {
                 // Pretend to trigger a Security Scan
                 sh "echo 'This stage will work fine , default scan results'"
                 sh "pwd"
-                sh "echo 'Security scan result for security-scan-results-s12a.sarif' > security-scan-results-s12a.sarif && ls -l security-scan-results-s12a.sarif"
-                archiveArtifacts artifacts: 'security-scan-results-s12a.sarif'
+                sh "echo 'Security scan result for security-scan-results-s12.sarif' > security-scan-results-s12.sarif && ls -l security-scan-results-s12.sarif"
+                archiveArtifacts artifacts: 'security-scan-results-s12.sarif'
             }
         }
 
